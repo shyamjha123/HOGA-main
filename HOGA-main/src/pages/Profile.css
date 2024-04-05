@@ -1,0 +1,9 @@
+@media (max-width: 769px) {
+    .col-md-4 {
+      width: 100%;
+    }
+    .col-md-8 {
+      width: 100%;
+    }
+  }
+  

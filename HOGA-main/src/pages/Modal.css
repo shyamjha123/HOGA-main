@@ -1,0 +1,194 @@
+.search-container {
+  display: flex;
+  justify-content: center;
+  /* align-items: center; */
+  margin-bottom: 80px;
+  /* position: relative; */
+  /* display: inline-block; */
+  width: 62%;
+  /* padding-left: 20px; */
+  /* top: 20px; */
+  /* width: 50%; */
+  /* height: 50px; */
+}
+
+.search-input {
+  width: 100%;
+  border-radius: 20px; /* Rounded corners */
+  border: none; /* Remove default input border */
+  outline: none; /* Remove default input outline */
+  padding: 5px 10px 5px 35px; /* Adjust padding to make space for icon */
+  background-image: url("../assets/search.png"); /* Search icon */
+  background-size: 20px; /* Size of the search icon */
+  background-position: 10px center; /* Position of the search icon */
+  background-repeat: no-repeat; /* Prevent icon from repeating */
+  height: 50px;
+  /* position: fixed; */
+}
+
+.search-input::placeholder {
+  color: white; /* Placeholder color */
+
+  /* width: ; */
+}
+
+.search-input:focus::placeholder {
+  color: transparent; /* Hide placeholder when input is focused */
+}
+/* Media query for smaller screens */
+/* Media query for smaller screens */
+.modal-input {
+  width: 100%;
+  height: 30px;
+  padding-left: 15px;
+}
+
+@media (max-width: 600px) {
+  .modal-container {
+    grid-template-columns: 1fr; /* Single column layout */
+  }
+}
+.banner {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 550px;
+  background-image: url("../assets/deck.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+
+.text-desktop {
+  display: none; /* Hide mobile text by default */
+}
+
+.text-mobile {
+  display: none; /* Hide desktop text by default */
+}
+
+.button-desktop, .button-mobile {
+  display: none; /* Hide both buttons by default */
+}
+
+@media only screen and (min-width: 769px) {
+  .text-desktop {
+    display: block; /* Show desktop text on screens wider than 768px */
+  }
+  .button-desktop {
+    display: block; /* Show desktop button */
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .banner {
+    height: 350px;
+    background-image: url("../assets/banner.png");
+  }
+  .text-mobile {
+    display: block; /* Show mobile text on screens up to 768px wide */
+  }
+  .button-mobile {
+    display: block; /* Show mobile button */
+  }
+}
+
+
+.button-desktop {
+  /* Custom CSS for desktop button */
+  background-color: #000; /* Green */
+  box-shadow:0 4px 8px rgba(0, 0,  0, 0.5);
+  /* border: none; */
+  border-width: 4px;
+  /* margin-top: 30px; */
+  /* margin-top: 40px; */
+  border-color: #fff;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 15px;
+  text-transform:uppercase;
+  font-family: sans-serif;
+  margin: 2px 2px;
+  cursor: pointer;
+  position: relative; /* Add relative positioning */
+  top: 160px; /* Adjust the button's position */
+  right: 270px;
+  /* right: 50px; */
+  transform: translateY(-50%); /* Center the button vertically */
+  /* border-radius: 10px; */
+}
+.button-mobile{
+    /* Custom CSS for desktop button */
+    background-color: #000; /* Green */
+    width:115px;
+  
+    /* border: none; */
+    border-width: 4px;
+    box-shadow:0 4px 8px rgba(0, 0,  0, 0.5);
+    border-color: white;
+    color: white;
+    height: 60px;
+    /* padding: 15px 32px; */
+    /* text-align: center; */
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    font-size: 12px;
+    text-transform:uppercase;
+    font-family: sans-serif;
+    margin: 2px 2px;
+    cursor: pointer;
+    position: relative; /* Add relative positioning */
+    top: 90px; /* Adjust the button's position */
+
+    right: 175px;
+    /* right: 50px; */
+    transform: translateY(-50%); /* Center the button vertically */
+    /* border-radius: 10px; */
+}
+
+.special-someone-inner img {
+  margin-bottom: 15px;
+  background: #a11c1a;
+  border-radius: 100px;
+  height: 120px;
+  width: 120px;
+  object-fit: none;
+  border: 5px solid #fd5
+}
+
+@media screen and (max-width: 600px) {
+  .main-container {
+      flex-direction: column;
+  }
+}
+
+.jammer {
+  display: flex;
+  /* background-color: blueviolet; */
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 70px;
+  height: 550px;
+  /* height: 100%; */
+  /* height: 30vh; */
+  /* height: 130%; */
+  background-image: url("../assets/posternew.jpg");
+  background-size: 100% 100%; /* This sets the width and height of the background image to 100% */
+  background-repeat: no-repeat;
+  /* border-radius: 20px; */
+}
+
+@media only screen and (max-width: 768px) {
+  .jammer {
+    height: 350px; /* Height for mobile view */
+    background-image: url("../assets/newbanner.png"); /* Second background image for mobile */
+  }
+} 
