@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import Logo from "../assets/logo.jpg";
+// import "./mydetail.css";
 
 import { Drawer, List, ListItem, ListItemText } from "@mui/material";
 // import MenuIcon from "@material-ui/icons/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useNavigate } from 'react-router-dom';
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+// import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons'
 
 
 function Mydetail() {
@@ -178,12 +181,12 @@ function Mydetail() {
             ))}
           </div>
         
-          <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev" style={{left: "20%", right: "auto"}}>
-            <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span className="visually-hidden">Previous</span>
+          <button className="carousel-control-prev " type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev" style={{left: "20%", right: "auto", }}>
+          <ChevronLeftIcon   style={{color: "#DC3545", width:"40px", height:"40px" }} />
+            <span className="visually-hidden"   >Previous</span>
           </button>
-          <button className="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next" style={{right: "20%", left: "auto"}}>
-            <span className="carousel-control-next-icon" aria-hidden="true"></span>
+          <button className="carousel-control-next " type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next" style={{right: "20%", left: "auto"}}>
+          <ChevronRightIcon   style={{color: "#DC3545", width:"40px", height:"40px" }} />
             <span className="visually-hidden">Next</span>
           </button>
         </div>
@@ -222,21 +225,6 @@ function Mydetail() {
               />
               </div>
               <div style={{display:"flex", flexDirection:"row", justifyContent:"space-between",marginTop:'15px'}}>
-              <span style={{color:"gray"}}>Nick name:-</span>
-              <input
-              style={{height:"30px",borderRadius:"10px",borderColor:"#fff", borderWidth:"2px",width:"50%",marginRight:"30px"}}
-                type="text"
-                value={editedData.nickname || (userData.nickname || "")} // If userData is null, use empty string
-                onChange={(e) => handleInputChange("nickname", e.target.value)}
-                onMouseEnter={(e) => {
-                  e.target.style.borderColor = "#87CEFA";
-                }} // Change border color on hover
-                onMouseLeave={(e) => {
-                  e.target.style.borderColor = "#F2F2F2";
-                }} // Revert border color on mouse leave
-              />
-              </div>
-              <div style={{display:"flex", flexDirection:"row", justifyContent:"space-between",marginTop:'15px'}}>
               <span style={{color:"gray"}}>Surname:-</span>
               <input
               style={{height:"30px",borderRadius:"10px",borderColor:"#fff", borderWidth:"2px",width:"50%",marginRight:"30px"}}
@@ -251,6 +239,22 @@ function Mydetail() {
                 }} // Revert border color on mouse leave
               />
               </div>
+              <div style={{display:"flex", flexDirection:"row", justifyContent:"space-between",marginTop:'15px'}}>
+              <span style={{color:"gray"}}>Nick name:-</span>
+              <input
+              style={{height:"30px",borderRadius:"10px",borderColor:"#fff", borderWidth:"2px",width:"50%",marginRight:"30px"}}
+                type="text"
+                value={editedData.nickname || (userData.nickname || "")} // If userData is null, use empty string
+                onChange={(e) => handleInputChange("nickname", e.target.value)}
+                onMouseEnter={(e) => {
+                  e.target.style.borderColor = "#87CEFA";
+                }} // Change border color on hover
+                onMouseLeave={(e) => {
+                  e.target.style.borderColor = "#F2F2F2";
+                }} // Revert border color on mouse leave
+              />
+              </div>
+            
               <div style={{display:"flex", flexDirection:"row", justifyContent:"space-between",marginTop:'15px'}}>
               <span style={{color:"gray"}}>Caste:- </span>
               <input

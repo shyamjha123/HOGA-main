@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState} from "react";
 import { Grid, Paper } from "@mui/material";
 import { Formik } from "formik";
 import * as Yup from "yup";
@@ -12,12 +12,29 @@ import {
 import { database } from "../firebase/Firebaseconfig";
 import { useNavigate } from "react-router-dom";
 import Logo from "../assets/logo.jpg";
-import Jodi from "../assets/istockphoto-1435794871-170667a.webp"
-
-
+import Jodi from "../assets/istockphoto-1435794871-170667a.webp";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import { Drawer, List, ListItem, ListItemText } from "@mui/material";
+// import MenuIcon from "@material-ui/icons/Menu";
+import MenuIcon from "@mui/icons-material/Menu";
 
 function Signuppage() {
-  const navigate = useNavigate();
+  const navigate = useNavigate();  
+  
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+
+  const toggleDrawer = (open) => (event) => {
+    if (
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
+      return;
+    }
+
+    setDrawerOpen(open);
+  };
+
   const schema = Yup.object().shape({
     email: Yup.string()
       .required("Email is a required field")
@@ -58,13 +75,11 @@ function Signuppage() {
     <div style={{ display: "flex", flexDirection: "column" }}>
 
     <div>
-    <nav class="navbar bg-white">
-      <div  style={{display:"flex", flexDirection:'row', gap:"30px"}} >
-       
+    <nav className="navbar navbar-expand-lg navbar-light bg-white">
+      <div className="container-fluid">
+        <a className="navbar-brand d-flex align-items-center" href="/">
           <img
-            style={{
-              backgroundColor: "transparent",
-            }}
+            style={{ backgroundColor: "transparent" }}
             onClick={() => {
               navigate("/");
             }}
@@ -73,13 +88,62 @@ function Signuppage() {
             width="70"
             height="74"
             border="none"
-            class="d-inline-block align-text-top"
+            className="d-inline-block align-text-top"
           />
-          <p style={{color:"#DC3545", display:'flex', fontSize:"30px", fontWeight:"500", alignItems:'center', justifyContent:"center"}}>Hogamilan</p>
-  
-    
-      </div>
+          <span
+            style={{
+              color: "#DC3545",
+              fontSize: "30px",
+              fontWeight: "500",
+              marginLeft: "10px" // Add margin for spacing
+            }}
+          >
+            Hogamilan
+          </span>
+        </a>
 
+        {/* Show MenuIcon */}
+        <button
+        style={{backgroundColor:"#fff", width:"50px", height:"50px"}}
+          className="navbar-toggler always-visible"
+          type="button"
+          onClick={toggleDrawer(true)}
+        >
+          <MenuIcon style={{ fontSize: "3rem" }} />
+        </button>
+
+        {/* Sidebar Drawer */}
+        <Drawer      className="custom-drawer"  anchor="right" open={drawerOpen} onClose={toggleDrawer(false)}>
+          <div
+          style={{ width: "240px",display:"flex", backgroundColor:"#ffe6f2", height:"100%" }}
+            role="presentation"
+            onClick={toggleDrawer(false)}
+            onKeyDown={toggleDrawer(false)}
+          >
+            <List>
+            <button
+            style={{
+              border: "none",
+              background: "none",
+              cursor: "pointer",
+              padding: "10px"
+            }}
+            onClick={toggleDrawer(false)}
+          >
+            <ChevronLeftIcon   style={{color: "orange", width:"40px", height:"40px" }} />
+          </button>
+              <ListItem
+                button
+                onClick={() => {
+                  navigate("/");
+                }}
+              >
+                <button style={{width:"200px", borderRadius:"20px", height:"40px", backgroundColor:"#DC3545",borderColor:'white', color:'white'}}   >Home</button>
+              </ListItem> 
+            </List>
+          </div>
+        </Drawer>
+      </div>
     </nav>
   </div>
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Grid, Paper } from "@mui/material";
 import { Formik } from "formik";
 import * as Yup from "yup";
@@ -7,14 +7,44 @@ import facebook from "../assets/facebook.png";
 import instagram from "../assets/instagram.png";
 import Logo from "../assets/logo.jpg";
 import Jodi from "../assets/istockphoto-1435794871-170667a.webp"
-import {
-  signInWithEmailAndPassword,
-  sendEmailVerification,
-} from "firebase/auth";
+import { signInWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
 import { database } from "../firebase/Firebaseconfig";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import { Drawer, List, ListItem, ListItemText } from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
 
 function Loginpage({ setLoggedIn }) {
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const toggleDrawer = (open) => (event) => {
+    if (
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
+      return;
+    }
+    setDrawerOpen(open);
+  };
+
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleBeforeUnload = (event) => {
+      event.preventDefault();
+      event.returnValue = '';
+    };
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    const handleBackButton = (event) => {
+      event.preventDefault();
+      navigate("/");
+    };
+    window.history.pushState(null, document.title, window.location.href);
+    window.addEventListener('popstate', handleBackButton);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+      window.removeEventListener('popstate', handleBackButton);
+    };
+  }, []);
 
   const schema = Yup.object().shape({
     email: Yup.string()
@@ -28,24 +58,29 @@ function Loginpage({ setLoggedIn }) {
   const getData = (values, e) => {
     const setemail = values.email;
     const setpassword = values.password;
+
     signInWithEmailAndPassword(database, setemail, setpassword)
       .then((data) => {
         const user = data.user;
-        sendEmailVerification(user);
-        const isEmailValid = data.user.emailVerified;
-        const email = data.user.email;
-
-        localStorage.setItem("email", email);
-
         const authToken = data.user.stsTokenManager.accessToken;
+
+        localStorage.setItem("email", setemail);
         localStorage.setItem("authToken", authToken);
 
-        if (isEmailValid && authToken) {
-          setLoggedIn(true); // Update loggedIn state
+        if (user.emailVerified) {
+          setLoggedIn(true);
           navigate("/Datasubmitform");
         } else {
-          if (!isEmailValid) {
+          if (setemail !== "mukeshsharmajaipur1975@gmail.com") {
+            sendEmailVerification(user)
+              .then(() => {
+                // Email verification sent
+              })
+              .catch((error) => {
+                console.error("Error sending email verification", error);
+              });
           }
+          // Handle the case where email is not verified
         }
       })
       .catch((err) => {
@@ -53,34 +88,77 @@ function Loginpage({ setLoggedIn }) {
       });
   };
 
-
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
       <div>
-        <nav class="navbar bg-white">
-          <div style={{ display: "flex", flexDirection: 'row', gap: "30px" }} >
-
-            <img
-              style={{
-                backgroundColor: "transparent",
-              }}
-              onClick={() => {
-                navigate("/");
-              }}
-              src={Logo}
-              alt="Logo"
-              width="70"
-              height="74"
-              border="none"
-              class="d-inline-block align-text-top"
-            />
-            <p style={{ color: "#DC3545", display: 'flex', fontSize: "30px", fontWeight: "500", alignItems: 'center', justifyContent: "center" }}>Hogamilan</p>
-
+        <nav className="navbar navbar-expand-lg navbar-light bg-white">
+          <div className="container-fluid">
+            <a className="navbar-brand d-flex align-items-center" href="/">
+              <img
+                style={{ backgroundColor: "transparent" }}
+                onClick={() => {
+                  navigate("/");
+                }}
+                src={Logo}
+                alt="Logo"
+                width="70"
+                height="74"
+                border="none"
+                className="d-inline-block align-text-top"
+              />
+              <span
+                style={{
+                  color: "#DC3545",
+                  fontSize: "30px",
+                  fontWeight: "500",
+                  marginLeft: "10px" // Add margin for spacing
+                }}
+              >
+                Hogamilan
+              </span>
+            </a>
+            <button
+              style={{ backgroundColor: "#fff", width: "50px", height: "50px" }}
+              className="navbar-toggler always-visible"
+              type="button"
+              onClick={toggleDrawer(true)}
+            >
+              <MenuIcon style={{ fontSize: "3rem" }} />
+            </button>
+            <Drawer className="custom-drawer" anchor="right" open={drawerOpen} onClose={toggleDrawer(false)}>
+              <div
+                style={{ width: "240px", display: "flex", backgroundColor: "#ffe6f2", height: "100%" }}
+                role="presentation"
+                onClick={toggleDrawer(false)}
+                onKeyDown={toggleDrawer(false)}
+              >
+                <List>
+                  <button
+                    style={{
+                      border: "none",
+                      background: "none",
+                      cursor: "pointer",
+                      padding: "10px"
+                    }}
+                    onClick={toggleDrawer(false)}
+                  >
+                    <ChevronLeftIcon style={{ color: "orange", width: "40px", height: "40px" }} />
+                  </button>
+                  <ListItem
+                    button
+                    onClick={() => {
+                      navigate("/");
+                    }}
+                  >
+                    <button style={{ width: "200px", borderRadius: "20px", height: "40px", backgroundColor: "#DC3545", borderColor: 'white', color: 'white' }} >Home</button>
+                  </ListItem>
+                </List>
+              </div>
+            </Drawer>
           </div>
         </nav>
       </div>
       <Grid container spacing={0} style={{ height: "100vh" }}>
-        {/* Left section on small screens */}
         <Grid item xs={12} sm={6}>
           <Paper style={{ height: "auto", padding: "20px" }}>
             <img
@@ -89,8 +167,6 @@ function Loginpage({ setLoggedIn }) {
             />
           </Paper>
         </Grid>
-
-        {/* Right section on small screens */}
         <Grid item xs={12} sm={6}>
           <Paper
             style={{
@@ -107,7 +183,6 @@ function Loginpage({ setLoggedIn }) {
                 initialValues={{ email: "", password: "" }}
                 onSubmit={(values, { setSubmitting }) => {
                   getData(values);
-                  
                   setSubmitting(false);
                 }}
               >
@@ -121,7 +196,7 @@ function Loginpage({ setLoggedIn }) {
                   isSubmitting,
                 }) => (
                   <div>
-                    <form  onSubmit={(e) => {
+                    <form onSubmit={(e) => {
                       e.preventDefault(); // Prevent default form submission
                       handleSubmit();
                     }}>
@@ -133,7 +208,7 @@ function Loginpage({ setLoggedIn }) {
                         }}
                       >
                         <label style={{ fontSize: 18, fontWeight: "700" }}>
-                          Email id 
+                          Email id
                         </label>
                         <input
                           style={{
@@ -210,7 +285,7 @@ function Loginpage({ setLoggedIn }) {
                           height: "50px",
                           paddingLeft: "10px",
                           borderRadius: "8px",
-                          boxShadow:"0 4px 8px rgba(0, 0,  0, 0.5)"
+                          boxShadow: "0 4px 8px rgba(0, 0,  0, 0.5)"
                         }}
                         type="submit"
                         disabled={isSubmitting}
@@ -233,7 +308,7 @@ function Loginpage({ setLoggedIn }) {
                           onClick={() => {
                             navigate("/Signuppage");
                           }}
-                          style={{ color: "rgb(53, 132, 173)" , cursor:"pointer" }}
+                          style={{ color: "rgb(53, 132, 173)", cursor: "pointer" }}
                         >
                           {" "}
                           Sign up
@@ -246,9 +321,7 @@ function Loginpage({ setLoggedIn }) {
             </div>
           </Paper>
         </Grid>
-        
       </Grid>
-
       <div>
         <div
           style={{
@@ -263,7 +336,6 @@ function Loginpage({ setLoggedIn }) {
               flexDirection: "column",
               width: "40%",
               marginTop: "20px",
-              // gap: "20px",
             }}
           >
             <span style={{ fontSize: "25px", fontWeight: "700" }}>
@@ -336,6 +408,3 @@ function Loginpage({ setLoggedIn }) {
 }
 
 export default Loginpage;
-
-
-

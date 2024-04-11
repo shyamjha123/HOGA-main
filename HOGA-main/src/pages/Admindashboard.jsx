@@ -15,13 +15,15 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import { useNavigate } from "react-router-dom";
-import Adminpage from "./Adminpage";
+// import Adminpage from "./Adminpage";
 import Adminpages from "../screen/Adminpages";
 // import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
+// import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
+// import InboxIcon from '@mui/icons-material/MoveToInbox';
+// import MailIcon from '@mui/icons-material/Mail';
+import { signOut } from "firebase/auth";
+import { database } from "../firebase/Firebaseconfig";
 
 const drawerWidth = 240;
 
@@ -104,6 +106,20 @@ function Admindashboard() {
     setOpen(false);
   };
 
+
+  const handleSignout = () => {
+    signOut(database)
+      .then(() => {
+        localStorage.removeItem("authToken");
+        // Reload the page after logout
+        window.location.reload();
+        window.location.href = "/"; // Navigate to the homepage
+      })
+      .catch((error) => {
+        console.error("Error signing out: ", error);
+      });
+  };
+
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -155,6 +171,24 @@ function Admindashboard() {
             </ListItemButton>
           </ListItem>
           ))}
+        
+          {['Logout'].map((text, index) => (
+            <ListItem disablePadding sx={{ display: "block" }}>
+              <ListItemButton
+                sx={{
+                  minHeight: 48,
+                  justifyContent: open ? "initial" : "center",
+                  px: 2.5,
+                }}
+                onClick={() => {
+                  handleSignout()
+                }}
+              >
+           
+            <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+              </ListItemButton>
+            </ListItem>
+            ))}
 
         </List>
         <Divider />
@@ -168,6 +202,7 @@ function Admindashboard() {
         ) : selectedtab == 1 
        
         }
+        
       </Box>
     </Box>
   );

@@ -7,6 +7,7 @@ import { Drawer, List, ListItem, ListItemText } from "@mui/material";
 // import MenuIcon from "@material-ui/icons/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft"; 
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
 // import Logo from "../assets/logo.jpg";
 
@@ -132,15 +133,15 @@ function Userdetail() {
       </div>
     
       <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev" style={{left: "20%", right: "auto"}}>
-        <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+      <ChevronLeftIcon   style={{color: "#DC3545", width:"40px", height:"40px" }} />
         <span className="visually-hidden">Previous</span>
       </button>
       <button className="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next" style={{right: "20%", left: "auto"}}>
-        <span className="carousel-control-next-icon" aria-hidden="true"></span>
+      <ChevronRightIcon   style={{color: "#DC3545", width:"40px", height:"40px" }} />
         <span className="visually-hidden">Next</span>
       </button>
     </div>
-      <div   style={{marginTop:"20px", display:"flex", flexDirection:"column", gap:20, paddingLeft:"30px"}}
+      <div   style={{marginTop:"20px", display:"flex", flexDirection:"column", gap:20, marginLeft:"20px", marginRight:"20px"}}
       >
         <h5 className="card-title"  style={{fontSize:"30px", color:"#DC3545",marginBottom:'60px' }}>Profile details</h5>
         <table>
@@ -165,7 +166,14 @@ function Userdetail() {
         }
           {/* Repeat similar structure for other details */}
        
-    
+          {!isEmpty(item.surname) &&
+            <tr>
+              <td style={{ width: "150px", color:"black" }}>Surname:-</td>
+              <span>:</span>
+              <td style={{fontWeight:"bold", color:"black"}}>{item.surname}</td>
+            </tr>
+          }
+
           {!isEmpty(item.nickname) &&
             <tr>
               <td style={{ width: "150px", color:"black" }}>Nick name:-</td>
@@ -173,13 +181,7 @@ function Userdetail() {
               <td style={{fontWeight:"bold", color:"black"}}>{item.nickname}</td>
             </tr>
           }
-          {!isEmpty(item.nickname) &&
-            <tr>
-              <td style={{ width: "150px", color:"black" }}>Surname:-</td>
-              <span>:</span>
-              <td style={{fontWeight:"bold", color:"black"}}>{item.surname}</td>
-            </tr>
-          }
+      
           {!isEmpty(item.caste) &&
             <tr>
               <td style={{ width: "150px", color:"black" }}>Caste:-</td>
@@ -189,12 +191,12 @@ function Userdetail() {
           }
           {!isEmpty(item.casteSubcaste) &&
             <tr>
-              <td style={{ width: "150px", color:"black" }}>Castesubaste:-</td>
+              <td style={{ width: "150px", color:"black" }}>Sub caste:-</td>
               <span>:</span>
               <td style={{fontWeight:"bold", color:"black"}}>{item.casteSubcaste}</td>
             </tr>
           }
-          {!isEmpty(item.casteSubcaste) &&
+          {!isEmpty(item.religion) &&
             <tr>
               <td style={{ width: "150px", color:"black" }}>Religion:-</td>
               <span>:</span>
@@ -256,6 +258,7 @@ function Userdetail() {
               <span>:</span>
               <td style={{fontWeight:"bold", color:"black"}}>{item.height}</td>
             </tr>
+
           }
           {!isEmpty(item.weight) &&
             <tr>
@@ -264,6 +267,7 @@ function Userdetail() {
               <td style={{fontWeight:"bold", color:"black"}}>{item.weight}</td>
             </tr>
           }
+
           {!isEmpty(item.city) &&
             <tr>
               <td style={{ width: "150px", color:"black" }}>Current city:- </td>
@@ -292,6 +296,7 @@ function Userdetail() {
               <td style={{fontWeight:"bold", color:"black"}}>{item.currentstate}</td>
             </tr>
           }
+
           {!isEmpty(item.pincode) &&
             <tr>
               <td style={{ width: "150px", color:"black" }}> Pin code:- </td>
@@ -299,7 +304,6 @@ function Userdetail() {
               <td style={{fontWeight:"bold", color:"black"}}>{item.pincode}</td>
             </tr>
           }
-
 
           {!isEmpty(item.country) &&
             <tr>
@@ -475,13 +479,7 @@ function Userdetail() {
               <td style={{fontWeight:"bold", color:"black"}}>{item.noofchildren}</td>
             </tr>
           }
-          {!isEmpty(item.emailid) &&
-            <tr>
-              <td style={{ width: "150px", color:"black" }}>Email id :-  </td>
-              <span>:</span>
-              <td style={{fontWeight:"bold", color:"black"}}>{item.emailid}</td>
-            </tr>
-          }
+  
         </tbody>
   </table>
 
@@ -493,7 +491,7 @@ function Userdetail() {
           <tr>
        
             <td style={{ width: "150px", color:"black" }}>Job type:-</td>
-            <span style={{marginRight:"30px"}}>:</span>
+            <span style={{marginRight:"20px"}}>:</span>
             <td style={{fontWeight:"bold", color:"black"}}>{item.jobstatus}</td>
        
           </tr>
@@ -530,7 +528,7 @@ function Userdetail() {
           <tr>
        
             <td style={{ width: "150px", color:"black" }}>Father name:-   </td>
-            <span style={{marginRight:"30px"}}>:</span>
+            <span style={{marginRight:"25px"}}>:</span>
             <td style={{fontWeight:"bold", color:"black"}}>{item.fathername}</td>
        
           </tr>
@@ -539,7 +537,7 @@ function Userdetail() {
         {!isEmpty(item.fatheroccupation) &&
           <tr>
        
-            <td style={{ width: "150px", color:"black" }}>Father Occupation:-      </td>
+            <td style={{ width: "150px", color:"black" }}>Father occupation:-      </td>
             <span>:</span>
             <td style={{fontWeight:"bold", color:"black"}}>{item.fatheroccupation}</td>
        
@@ -548,7 +546,7 @@ function Userdetail() {
         {!isEmpty(item.mothername) &&
           <tr>
        
-            <td style={{ width: "150px", color:"black" }}>Mother Name:-      </td>
+            <td style={{ width: "150px", color:"black" }}>Mother name:-      </td>
             <span>:</span>
             <td style={{fontWeight:"bold", color:"black"}}>{item.mothername}</td>
        
@@ -557,7 +555,7 @@ function Userdetail() {
         {!isEmpty(item.motheroccupation) &&
           <tr>
        
-            <td style={{ width: "150px", color:"black" }}>Mother Occupation:-      </td>
+            <td style={{ width: "150px", color:"black" }}>Mother occupation:-      </td>
             <span>:</span>
             <td style={{fontWeight:"bold", color:"black"}}>{item.motheroccupation}</td>
        
@@ -575,7 +573,7 @@ function Userdetail() {
         {!isEmpty(item.brothermaritalstatus) &&
           <tr>
        
-            <td style={{ width: "150px", color:"black" }}>Brother marital status:-  </td>
+            <td style={{ width: "170px", color:"black" }}>Brother marital status:-  </td>
             <span>:</span>
             <td style={{fontWeight:"bold", color:"black"}}>{item.brothermaritalstatus}</td>
        
@@ -593,7 +591,7 @@ function Userdetail() {
         {!isEmpty(item.sistersmaritalstatus) &&
           <tr>
        
-            <td style={{ width: "150px", color:"black" }}>Sisters marital status:-   </td>
+            <td style={{ width: "160px", color:"black" }}>Sisters marital status:-   </td>
             <span>:</span>
             <td style={{fontWeight:"bold", color:"black"}}>{item.sistersmaritalstatus}</td>
        
@@ -608,7 +606,7 @@ function Userdetail() {
         <tr>
      
           <td style={{ width: "150px", color:"black" }}>Age upto :-   </td>
-          <span style={{marginRight:"30px"}}>:</span>
+          <span style={{marginRight:"20px"}}>:</span>
           <td style={{fontWeight:"bold", color:"black"}}>{item.ageto}</td>
      
         </tr>
@@ -733,7 +731,7 @@ function Userdetail() {
       {!isEmpty(item.partnercountryofresidence) &&
         <tr>
      
-          <td style={{ width: "150px", color:"black" }}>Country of residence:-   </td>
+          <td style={{ width: "160px", color:"black" }}>Country of residence:-   </td>
           <span>:</span>
           <td style={{fontWeight:"bold", color:"black"}}>{item.partnercountryofresidence}</td>
      

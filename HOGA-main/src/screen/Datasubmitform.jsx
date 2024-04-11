@@ -476,50 +476,6 @@ style={{
           <div
           style={{
             display: "flex",
-            width: "80%",
-            marginTop: "20px",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              width: "80%",
-              flexDirection: "column",
-            }}
-          >
-          <label htmlFor="input1">Nick name</label>
-          <input
-            style={{
-              width: "100%",
-              cursor: "pointer",
-              paddingLeft: "10px",
-              borderColor: "#F2F2F2",
-              transition: "border-color 0.3s ease",
-              borderWidth: "3px",
-              height: "30px",
-            }}
-            type="nickname"
-            name="nickname"
-            onChange={(e)=>{
-              setForm({...form, nickname:e.target.value})
-            }}
-            value={form.nickname}
-            // placeholder="Enter username"
-            id="nickname"
-            onMouseEnter={(e) => {
-              e.target.style.borderColor = "#87CEFA";
-            }} // Change border color on hover
-            onMouseLeave={(e) => {
-              e.target.style.borderColor = "#F2F2F2";
-            }} // Revert border color on mouse leave
-          />
-         
-          </div>
-        </div>
-
-          <div
-          style={{
-            display: "flex",
             // gap: "30px",
             marginTop: "20px",
             // flexDirection: "row",
@@ -563,6 +519,53 @@ style={{
           />
           </div>
         </div>
+
+          <div
+          style={{
+            display: "flex",
+            width: "80%",
+            marginTop: "20px",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              width: "80%",
+              flexDirection: "column",
+            }}
+          >
+          <label htmlFor="input1">Nick name</label>
+          <input
+            style={{
+              width: "100%",
+              cursor: "pointer",
+              paddingLeft: "10px",
+              borderColor: "#F2F2F2",
+              transition: "border-color 0.3s ease",
+              borderWidth: "3px",
+              height: "30px",
+            }}
+            type="nickname"
+            name="nickname"
+            onChange={(e)=>{
+              setForm({...form, nickname:e.target.value})
+            }}
+            value={form.nickname}
+            // placeholder="Enter username"
+            id="nickname"
+            onMouseEnter={(e) => {
+              e.target.style.borderColor = "#87CEFA";
+            }} // Change border color on hover
+            onMouseLeave={(e) => {
+              e.target.style.borderColor = "#F2F2F2";
+            }} // Revert border color on mouse leave
+          />
+         
+          </div>
+        </div>
+
+       
+
         <div
         style={{
           display: "flex",

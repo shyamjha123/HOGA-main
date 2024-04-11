@@ -8,14 +8,13 @@ import {  getAuth } from 'firebase/auth';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyB0jQbV7q46OjBrGkQ2PF0JfXq7aR5hIhg",
-  authDomain: "hogamilan-374c2.firebaseapp.com",
-  databaseURL: "https://hogamilan-374c2-default-rtdb.firebaseio.com",
-  projectId: "hogamilan-374c2",
-  storageBucket: "hogamilan-374c2.appspot.com",
-  messagingSenderId: "14121297363",
-  appId: "1:14121297363:web:eaa269ea1b3f450ba73b26",
-  measurementId: "G-ZN5RB89NXC"
+  apiKey: "AIzaSyBXthJ115kjo20R6GvZD__y2d_Wnt3wkCY",
+  authDomain: "hogamilanauth.firebaseapp.com",
+  projectId: "hogamilanauth",
+  storageBucket: "hogamilanauth.appspot.com",
+  messagingSenderId: "209377170594",
+  appId: "1:209377170594:web:bc350c4348ffa362d133fb",
+  measurementId: "G-VJKL60X8LC"
 };
 
 // Initialize Firebase

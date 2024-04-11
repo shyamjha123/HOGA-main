@@ -17,7 +17,7 @@ import Allprofile from "../pages/Allprofile";
 import Userdetail from "../pages/Userdetail";
 import Mydetail from "../screen/Mydetail";
 // import Homepage from "../screen/Splashscreen";
-import Splashscreen from "../screen/Splashscreen";
+// import Splashscreen from "../screen/Splashscreen";
 import Userprofilesdetails from "../adminprofilesdetails/Userprofilesdetails";
 
 const Navigators = () => {

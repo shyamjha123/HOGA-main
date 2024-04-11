@@ -8,7 +8,7 @@ import Snow from "../snow/Snow";
 import { getAllData } from "../redux/Profilelist";
 import { useNavigate } from "react-router-dom";
 import isEqual from "lodash/isEqual";
-import { Modal } from "@mui/material";
+// import { Modal } from "@mui/material";
 import "./Modal.css";
 // import bannertwo from '../assets/bannertwo.png';
 import Navbar from "../common/Navbar";
@@ -20,6 +20,8 @@ import s1 from '../assets/ss-1.png';
 import s2 from '../assets/ss-2.png';
 import s3 from '../assets/ss-3.png';
 import s4 from '../assets/ss-4.png';
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft"; 
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
 function Homepage() {
 
@@ -79,11 +81,7 @@ function Homepage() {
 
 
   const navigate = useNavigate();
-  // const [userData, setUserData] = useState(null);
-  // const [selectedItem, setSelectedItem] = useState(null); 
-
-
-
+ 
   const datastore = useSelector((state) => state.Profiledata.users);
 
   
@@ -169,12 +167,38 @@ function Homepage() {
   const [data, setData] = useState(false);
  
 
+  const carouselRef = useRef(null);
+  const [touchStartX, setTouchStartX] = useState(0);
+  const [touchEndX, setTouchEndX] = useState(0);
+
+  const handleTouchStart = (e) => {
+    setTouchStartX(e.touches[0].clientX);
+  };
+  
+  const handleTouchMove = (e) => {
+    setTouchEndX(e.touches[0].clientX);
+  };
+  
+  const handleTouchEnd = () => {
+    const deltaX = touchEndX - touchStartX;
+    const sensitivity = 50; // Adjust sensitivity as needed
+  
+    if (Math.abs(deltaX) > sensitivity) {
+      if (deltaX > 0) {
+        carouselRef.current.previous();
+      } else {
+        carouselRef.current.next();
+      }
+    }
+  };
+
 
   const handleWhatsAppClick = (userData) => {
-    const { name, age, caste, city, imagePath, state } = userData;
-    const phoneNumber = "917568111771";
+    const { name, age, caste, city, currentstate } = userData;
+    // 917568111771
+    const phoneNumber = " 917568111771";
 
-    const message = `Hi, I'm interested in your profile. My name is ${name}, age is ${age}, caste is ${caste} , City is ${city}, state is ${state}   `  ; 
+    const message = `Hi, I'm interested in your profile. My name is ${name}, age is ${age}, caste is ${caste} , City is ${city}, state is ${currentstate}   `  ; 
     // const message = 'dfdfdfdfdfdfdf'
     const encodedMessage = encodeURIComponent(message);
     const url = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodedMessage}`;
@@ -223,6 +247,27 @@ function Homepage() {
       slidesToSlide: 1,
     },
   };
+
+
+  const Imageresponsive = {
+    desktop: {
+      breakpoint: { max: 2000, min: 1024 },
+      items: 1,
+      slidesToSlide: 1,
+    },
+    tablet: {
+      breakpoint: { max: 1024, min: 464 },
+      items: 2,
+      slidesToSlide: 2,
+    },
+    mobile: {
+      breakpoint: { max: 464, min: 0 },
+      items: 1,
+      slidesToSlide: 1,
+    },
+  };
+
+
 
  
   const handleCardClick = (item) => {
@@ -337,6 +382,7 @@ onSubmit={(e) => {
       
       {showMatchingCarousel && matchingProfiles.length > 0 && (
         <Carousel
+        ref={carouselRef}
           responsive={responsive}
           swipeable={true}
           draggable={true}
@@ -354,100 +400,125 @@ onSubmit={(e) => {
           itemClass="carousel-item-padding-40-px"
           renderButtonGroupOutside={true}
           arrows={false}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+
         >
         {sortedData.map((item, index) => (
-
+         
           
-          <div   onClick={() => handleCardClick(item)} class="card" style={{width: '70%',  cursor:"pointer", boxShadow:"0 4px 8px rgba(0, 0,  0, 0.5)", borderRadius:"20px", height:"410px", marginLeft:"70px",marginTop:"40px",backgroundColor:"#fff", alignItems:'center', borderColor:"gray"}}>
-          <div style={{width:"100%", height:"50%"}}>
-          {item.imagePath && item.imagePath[0] && (
-          <img src={item.imagePath[0]} style={{width:"100%", height:'100%',  borderRadius:"20px"}}  />
-          )}
-          </div>
-            <div style={{display:'flex',  alignItems:'center', flexDirection:'column'}}>
-           
-            <button  style={{display:"flex",borderColor:'#fff', marginTop:"10px", boxShadow:"0 4px 8px rgba(0, 0, 0, 0.5)", justifyContent:'center', width:"200px", borderRadius:"10px", height:"40px", alignItems:'center', backgroundColor:"#DC3545", color:"#ffF"}} onClick={()=>{
-              handleWhatsAppClick(item)
-            }}>Contact now</button>
-       </div>
+          <div key={index}  onClick={() => handleCardClick(item)}  style={{width: '70%',  cursor:"pointer", boxShadow:"0 4px 8px rgba(0, 0,  0, 0.5)", height:"410px", borderRadius:"10px", marginLeft:"70px",marginTop:"40px",backgroundColor:"#fff", alignItems:'center', borderColor:"gray",}}>
+          <Carousel
+          responsive={Imageresponsive}
+          swipeable={true}
+          draggable={true}
+          showDots={false}
+          infinite={true}
+          autoPlay={true}
+          autoPlaySpeed={2000}
+          keyBoardControl={true}
+          customTransition="all .5"
+          transitionDuration={500}
+          containerClass="inner-carousel-container"
+          removeArrowOnDeviceType={["tablet", "mobile"]}
+          deviceType={"desktop"}
+          dotListClass="custom-dot-list-style"
+          itemClass="carousel-item-padding-40-px"
+          renderButtonGroupOutside={true}
+          arrows={false}
+        >
+          {item.imagePath && item.imagePath.map((image, id) => (
+            <div key={id}  style={{width:"100%", height:"200px"}}>
+              <img src={image} alt={`slide-${id}`} style={{width: '100%', height: '100%', }} />
+            </div>
+          ))}
+        </Carousel>
 
-          <div style={{display:"flex",flexDirection:'row',justifyContent:"flex-start",  gap:20,marginTop:"20px",}}>
-            <span
-            style={{
-              // marginTop:"10px",
-              fontSize: "15px",
-              fontWeight: "bold",
-                // fontWeight: "bold",
-                color: "#333",
-                fontFamily: "inherit",
-     
-              // textAlign:'center'
-            }}
-          >
-        {item.name}
-          </span>
-        
-          <span
-            style={{
-              fontSize: "15px",
-              fontWeight: "bold",
-                // fontWeight: "bold",
-                color: "#333",
-                fontFamily: "inherit",
-              // textAlign:'center'
-            }}
-          >
-             {item.age}
-          </span>
-          </div>
-     
-<div style={{display:"flex",flexDirection:'row',justifyContent:"flex-start",gap:20}}>
+          <div style={{display:'flex',  alignItems:'center', flexDirection:'column'}}>
+         
+          <button  style={{display:"flex",borderColor:'#fff', marginTop:"10px", boxShadow:"0 4px 8px rgba(0, 0, 0, 0.5)", justifyContent:'center', width:"200px", borderRadius:"10px", height:"40px", alignItems:'center', backgroundColor:"#DC3545", color:"#ffF"}} onClick={()=>{
+            handleWhatsAppClick(item)
+          }}>Contact now</button>
+     </div>
+
+        <div   onClick={() => handleCardClick(item)}  style={{display:"flex",flexDirection:'row',justifyContent:"center",  gap:20,marginTop:"20px",}}>
           <span
           style={{
+            // marginTop:"10px",
             fontSize: "15px",
             fontWeight: "bold",
-              // fontWeight: "bold",
-              color: "#333",
-              fontFamily: "inherit",
-     
+            color: "#333",
+            fontFamily: "inherit",
+   
             // textAlign:'center'
           }}
         >
-           {item.caste}
+      {item.name}
         </span>
-       
-     
-          <span
-            style={{
-              fontSize: "15px",
-              fontWeight: "bold",
-                // fontWeight: "bold",
-                color: "#333",
-                fontFamily: "inherit",
-     
-              // textAlign:'center'
-            }}
-          >
-           {item.city}
-          </span>
-          </div>
-
-          <span
+      
+        <span
           style={{
             fontSize: "15px",
             fontWeight: "bold",
-              // fontWeight: "bold",
-              color: "#333",
-              fontFamily: "inherit",
-     
+            // fontWeight: "bold",
+            color: "#333",
+            fontFamily: "inherit",
             // textAlign:'center'
           }}
         >
-         {item.currentstate}
+           {item.age}
         </span>
-    
-           
-          </div>
+        </div>
+   
+<div style={{display:"flex",flexDirection:'row',justifyContent:"center",gap:20}}>
+        <span
+        style={{
+          fontSize: "15px",
+          fontWeight: "bold",
+          // fontWeight: "bold",
+          color: "#333",
+          fontFamily: "inherit",
+   
+          // textAlign:'center'
+        }}
+      >
+         {item.caste}
+      </span>
+     
+   
+        <span
+          style={{
+            fontSize: "15px",
+            fontWeight: "bold",
+            // fontWeight: "bold",
+            color: "#333",
+            fontFamily: "inherit",
+   
+            // textAlign:'center'
+          }}
+        >
+         {item.city}
+        </span>
+        </div>
+       <div style={{display:'flex', justifyContent:'center', flexDirection:"row"}}>
+        <span
+        style={{
+          fontSize: "15px",
+          fontWeight: "bold",
+            // fontWeight: "bold",
+            color: "#333",
+            fontFamily: "inherit",
+   
+          textAlign:'center'
+        }}
+      >
+       {item.currentstate}
+      </span>
+      </div>
+  
+         
+        </div>
+      
            
         ))}
         </Carousel>
@@ -455,6 +526,7 @@ onSubmit={(e) => {
 
       {!showMatchingCarousel && (
         <Carousel
+    
           responsive={responsive}
           swipeable={true}
           draggable={true}
@@ -472,16 +544,38 @@ onSubmit={(e) => {
           itemClass="carousel-item-padding-40-px"
           renderButtonGroupOutside={true}
           arrows={false}
+          onTouchStart={handleTouchStart}
+    
         >
           {sortedData.map((item, index) => (
          
           
-            <div   onClick={() => handleCardClick(item)} class="card" style={{width: '70%',  cursor:"pointer", boxShadow:"0 4px 8px rgba(0, 0,  0, 0.5)", height:"410px", borderRadius:"10px", marginLeft:"70px",marginTop:"40px",backgroundColor:"#fff", alignItems:'center', borderColor:"gray",}}>
-          <div style={{width:"100%", height:"50%"}}>
-          {item.imagePath && item.imagePath[0] && (
-          <img src={item.imagePath[0]} style={{width:"100%", height:'100%',  borderRadius:"20px"}}  />
-          )}
-          </div>
+            <div key={index}  onClick={() => handleCardClick(item)}    style={{width: '70%',  cursor:"pointer", boxShadow:"0 4px 8px rgba(0, 0,  0, 0.5)", height:"410px", borderRadius:"10px", marginLeft:"70px",marginTop:"40px",backgroundColor:"#fff", alignItems:'center', borderColor:"gray",}}>
+            <Carousel
+            responsive={Imageresponsive}
+            swipeable={true}
+            draggable={true}
+            showDots={false}
+            infinite={true}
+            autoPlay={true}
+            autoPlaySpeed={2000}
+            keyBoardControl={true}
+            customTransition="all .5"
+            transitionDuration={500}
+            containerClass="inner-carousel-container"
+            removeArrowOnDeviceType={["tablet", "mobile"]}
+            deviceType={"desktop"}
+            dotListClass="custom-dot-list-style"
+            itemClass="carousel-item-padding-40-px"
+            renderButtonGroupOutside={true}
+            arrows={false}
+          >
+            {item.imagePath && item.imagePath.map((image, id) => (
+              <div key={id}  style={{width:"100%", height:"200px"}}>
+                <img src={image} alt={`slide-${id}`} style={{width: '100%', height: '100%', }} />
+              </div>
+            ))}
+          </Carousel>
             <div style={{display:'flex',  alignItems:'center', flexDirection:'column'}}>
            
             <button  style={{display:"flex",borderColor:'#fff', marginTop:"10px", boxShadow:"0 4px 8px rgba(0, 0, 0, 0.5)", justifyContent:'center', width:"200px", borderRadius:"10px", height:"40px", alignItems:'center', backgroundColor:"#DC3545", color:"#ffF"}} onClick={()=>{
@@ -489,7 +583,7 @@ onSubmit={(e) => {
             }}>Contact now</button>
        </div>
 
-          <div style={{display:"flex",flexDirection:'row',justifyContent:"flex-start",  gap:20,marginTop:"20px",}}>
+          <div   onClick={() => handleCardClick(item)}  style={{display:"flex",flexDirection:'row',justifyContent:"center",  gap:20,marginTop:"20px",}}>
             <span
             style={{
               // marginTop:"10px",
@@ -518,7 +612,7 @@ onSubmit={(e) => {
           </span>
           </div>
      
-<div style={{display:"flex",flexDirection:'row',justifyContent:"flex-start",gap:20}}>
+<div style={{display:"flex",flexDirection:'row',justifyContent:"center",gap:20}}>
           <span
           style={{
             fontSize: "15px",
@@ -548,7 +642,7 @@ onSubmit={(e) => {
            {item.city}
           </span>
           </div>
-
+         <div style={{display:'flex', justifyContent:'center', flexDirection:"row"}}>
           <span
           style={{
             fontSize: "15px",
@@ -557,11 +651,12 @@ onSubmit={(e) => {
               color: "#333",
               fontFamily: "inherit",
      
-            // textAlign:'center'
+            textAlign:'center'
           }}
         >
          {item.currentstate}
         </span>
+        </div>
     
            
           </div>
